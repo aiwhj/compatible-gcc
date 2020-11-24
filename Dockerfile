@@ -1,5 +1,9 @@
-FROM shik/centos5-gcc:7.2.0
-
-RUN yum -y install curl-devel.x86_64 && yum clean all
-ENV PATH="/toolchain/bin:${PATH}"
+FROM astj/centos5-vault
+RUN \
+    yum install binutils bzip2 gcc-c++ gzip make tar wget xz -y && \
+    wget http://people.centos.org/tru/devtools-2/devtools-2.repo -O /etc/yum.repos.d/devtools-2.repo && \
+    yum install devtoolset-2-gcc devtoolset-2-binutils devtoolset-2-gcc-c++ -y && \
+    ln -s /opt/rh/devtoolset-2/root/usr/bin/* /usr/local/bin/ && \
+    hash -r && \
+    gcc --version
 CMD /bin/bash
